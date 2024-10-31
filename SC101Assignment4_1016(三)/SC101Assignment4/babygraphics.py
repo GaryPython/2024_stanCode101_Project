@@ -45,8 +45,8 @@ def get_x_coordinate(width, year_index):
                             with the current year.
     """
     num_years = len(YEARS)
-    spacing = int((width-GRAPH_MARGIN_SIZE) / num_years)
-    return int(year_index * spacing)
+    spacing = (width-GRAPH_MARGIN_SIZE) // num_years
+    return year_index * spacing
 
 
 def draw_fixed_lines(canvas):
@@ -64,8 +64,6 @@ def draw_fixed_lines(canvas):
     for YEAR in range(len(YEARS)):
         canvas.create_line(GRAPH_MARGIN_SIZE+get_x_coordinate(CANVAS_WIDTH, YEAR), 0, GRAPH_MARGIN_SIZE+get_x_coordinate(CANVAS_WIDTH, YEAR), CANVAS_HEIGHT, width=LINE_WIDTH)
         canvas.create_text(GRAPH_MARGIN_SIZE+TEXT_DX+get_x_coordinate(CANVAS_WIDTH, YEAR),CANVAS_HEIGHT-GRAPH_MARGIN_SIZE , text=YEARS[YEAR], anchor=tkinter.NW,)
-
-
 
 
 
@@ -116,13 +114,13 @@ def draw_names(canvas, name_data, lookup_names):
             canvas.create_line(
                 GRAPH_MARGIN_SIZE + get_x_coordinate(CANVAS_WIDTH, YEAR), y1,
                 GRAPH_MARGIN_SIZE + get_x_coordinate(CANVAS_WIDTH, YEAR + 1), y2,
-                width=LINE_WIDTH, fill=COLORS[name]
+                width=LINE_WIDTH, fill=COLORS[name % len(COLORS)]  # 取餘數
             )
 
             # 繪製當前年份的文字
             canvas.create_text(
                 GRAPH_MARGIN_SIZE + TEXT_DX + get_x_coordinate(CANVAS_WIDTH, YEAR),
-                y1, text=text, anchor='sw', fill=COLORS[name]
+                y1, text=text, anchor='sw', fill=COLORS[name % len(COLORS)]  # 取餘數
             )
 
             print('--' * 10)
@@ -137,7 +135,7 @@ def draw_names(canvas, name_data, lookup_names):
 
         canvas.create_text(
             GRAPH_MARGIN_SIZE + TEXT_DX + get_x_coordinate(CANVAS_WIDTH, len(YEARS) - 1),
-            y1, text=text, anchor='sw', fill=COLORS[name]
+            y1, text=text, anchor='sw', fill=COLORS[name % len(COLORS)]  # 取餘數
         )
 
 
